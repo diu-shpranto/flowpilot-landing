@@ -1,189 +1,586 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FlowPilot — Simple Analytics for Busy Teams</title>
-<meta name="description" content="Lightweight analytics SaaS landing page demo with pricing toggle, FAQ accordion, and testimonial slider." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
---bg:#0b0c10; /* page bg */
---panel:#111319; /* cards/nav */
---text:#e8eaf0; /* primary text */
---muted:#aeb4c1; /* secondary */
---brand:#e5e7eb; /* mono neutral */ /* mint */
---accent:#9ca3af; /* subtle gray accent */ /* blue */
---danger:#f87171;
---border:#cbd5e1; /* brighter border */
---shadow: 0 10px 30px rgba(0,0,0,.35);
---radius: 16px;
---container: 1120px;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FlowPilot — Simple Analytics for Busy Teams</title>
+  <meta name="description" content="Lightweight analytics SaaS landing page demo with pricing toggle, FAQ accordion, and testimonial slider." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0c10; /* page bg */
+      --panel:#111319; /* cards/nav */
+      --text:#e8eaf0; /* primary text */
+      --muted:#aeb4c1; /* secondary */
+      --brand:#e5e7eb; /* mono neutral */ /* mint */
+      --accent:#9ca3af; /* subtle gray accent */ /* blue */
+      --danger:#f87171;
+      --border:#cbd5e1; /* brighter border */
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+      --container: 1120px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);} 
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--container);margin:0 auto;padding:0 20px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;background:var(--brand);color:#0a0f0d;font-weight:500;border:1px solid var(--brand);box-shadow:none;transition:.15s transform ease;} 
+    .btn:hover{transform:translateY(-1px);} 
+    .btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+    header{position:sticky;top:0;z-index:50;background:var(--panel);border-bottom:1px solid var(--border);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+    nav{display:flex;justify-content:space-between;align-items:center;height:64px}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:700}
+    .logo .mark{width:28px;height:28px;border-radius:8px;background:conic-gradient(from 120deg, var(--brand), var(--accent));box-shadow:0 0 0 2px #15202b inset}
+    .nav-links{display:flex;gap:18px}
+    .nav-links a{color:var(--muted);transition:color .2s ease;}
+.nav-links a.active{color:var(--text);text-decoration:underline;text-underline-offset:4px;} 
+    .nav-links a:hover{color:var(--text);text-decoration:underline;text-underline-offset:4px} 
+    .nav-links .btn{color:#000 !important;background:var(--brand) !important;border-color:var(--brand) !important;}
+    .hero{padding:72px 0 40px;border-bottom:1px solid var(--border)}
+    .hero .headline{font-size:46px;line-height:1.05;letter-spacing:-0.02em;margin:10px 0 14px}
+    .hero p{color:var(--muted);max-width:720px}
+    .hero-cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+    .statbar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:38px}
+    .stat{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+    .stat b{font-size:20px}
+    .features{padding:56px 0}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
+    .card h3{margin:4px 0 6px;font-size:18px}
+    .muted{color:var(--muted)}
+    .feature-icon{width:36px;height:36px;border-radius:10px;background:transparent;border:1px solid var(--border);display:grid;place-items:center;color:var(--muted);}
+
+    /* Pricing */
+    .pricing{padding:56px 0;border-top:1px solid var(--border)}
+    .toggle{display:flex;align-items:center;gap:12px;justify-content:center;margin:6px 0 24px}
+    .switch{position:relative;width:54px;height:30px;background:#1a2130;border-radius:20px;border:1px solid var(--border);cursor:pointer}
+    .switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--brand);transition:left .2s}
+    .switch.active::after{left:27px}
+    .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .plan{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
+    .plan.popular{border-color:rgba(110,231,183,.6)}
+    .price{font-size:34px;font-weight:700}
+    .price small{font-size:14px;color:var(--muted)}
+    .features-list{display:grid;gap:10px;margin:6px 0}
+    .features-list li{display:flex;align-items:center;gap:10px}
+    .check{width:18px;height:18px;border-radius:50%;background:rgba(110,231,183,.18);display:grid;place-items:center;border:1px solid #285a47}
+
+    /* Testimonials */
+    .testimonials{padding:56px 0;text-align:center}
+.testimonials h2{letter-spacing:0.5px;}
+    .slider{position:relative;overflow:hidden;border-radius:18px;max-width:720px;margin:0 auto;}
+    .slides{display:flex;transition:transform .35s ease;will-change:transform} 
+    .tcard{flex:0 0 100%;min-width:100%;margin:0;background:var(--panel);border:1px solid var(--border);padding:26px;box-sizing:border-box;} 
+    .dots{display:flex;justify-content:center;gap:8px;margin-top:12px}
+    .dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:#1a2130;cursor:pointer}
+    .dot.active{background:var(--text); border-color:var(--text);}
+
+    /* Demo */
+    .demo{padding:56px 0;border-top:1px solid var(--border)}
+    .demo .wrap{display:grid;grid-template-columns:minmax(320px,1fr) minmax(520px,1fr);gap:18px;align-items:stretch}
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .kpi{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
+    .kpi b{font-size:22px}
+    .demo-screen{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:0;overflow:hidden;box-shadow:var(--shadow);min-width:520px}
+    .demo-toolbar{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border)}
+    .demo-toolbar .dots{gap:6px}
+    .demo-toolbar .dots .dot{width:8px;height:8px;border-radius:50%;background:#ef4444;border:0}
+    .demo-toolbar .dots .dot:nth-child(2){background:#f59e0b}
+    .demo-toolbar .dots .dot:nth-child(3){background:#10b981}
+    .demo-canvas{padding:16px}
+    .mini-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px;margin-bottom:16px}
+    .tile{background:#0e121a;border:1px solid var(--border);border-radius:10px;height:120px}
+    .tile.w6{grid-column:span 6}
+    .tile.w4{grid-column:span 4}
+    .tile.w3{grid-column:span 3}
+    .tile.w12{grid-column:span 12;height:180px}
+    .chart-card{background:#0e121a;border:1px solid var(--border);border-radius:12px;padding:12px}
+    .chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .chart-title{font-weight:600}
+    .chart-legend{font-size:12px;color:var(--muted)}
+    #demoChart{width:100%;height:240px;display:block}
+    @media (max-width: 1100px){
+      .demo .wrap{grid-template-columns:1fr}
+      .kpis{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){
+      .kpis{grid-template-columns:1fr}
+    }
+
+    /* FAQ */
+    .faq{padding:56px 0;border-top:1px solid var(--border)}
+    .accordion{display:grid;gap:12px}
+    .qa{background:var(--panel);border:1px solid var(--border);border-radius:14px}
+    .qa button{width:100%;text-align:left;background:transparent;border:0;color:var(--text);padding:16px 18px;display:flex;justify-content:space-between;align-items:center;font-weight:600;cursor:pointer}
+    .qa .answer{max-height:0;overflow:hidden;transition:max-height .25s ease;padding:0 18px}
+    .qa.open .answer{max-height:200px;padding:0 18px 16px}
+
+    /* About */
+    .about{padding:56px 0;border-top:1px solid var(--border)}
+    .about .wrap{display:grid;grid-template-columns:280px 1fr;gap:22px;align-items:start}
+    .avatar{width:120px;height:120px;border-radius:50%;background:none;border:1px solid var(--border);display:grid;place-items:center;overflow:hidden;} .avatar-img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;} 
+.avatar-img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;} 
+    .bio{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:none;} 
+    .pill{display:inline-block;font-size:12px;padding:3px 8px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--muted);margin-right:6px;}
+    @media (max-width: 960px){.about .wrap{grid-template-columns:1fr}}
+
+    .cta{padding:56px 0}
+    .cta .wrap{background:linear-gradient(135deg,rgba(110,231,183,.15),rgba(96,165,250,.15));border:1px solid var(--border);border-radius:18px;padding:28px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+
+    footer{padding:40px 0;background:var(--panel);color:var(--muted);border-top:1px solid var(--border);text-align:center}
+.footer-nav{margin-bottom:14px;display:flex;justify-content:center;flex-wrap:wrap;gap:14px;font-size:14px}
+.footer-nav a{color:var(--muted);transition:color .2s}
+.footer-nav a:hover{color:var(--text);text-decoration:underline;text-underline-offset:4px}
+.social{display:flex;justify-content:center;gap:16px;margin-bottom:14px}
+.social a{display:inline-flex}
+.social svg{width:18px;height:18px;opacity:.9}
+.social a:hover svg{opacity:1}
+
+    /* Smooth scroll anchor offset */
+    :target{scroll-margin-top:84px}
+
+    /* Responsive */
+    @media (max-width: 960px){
+      .grid{grid-template-columns:1fr 1fr}
+      .plans{grid-template-columns:1fr}
+      .statbar{grid-template-columns:1fr}
+    }
+    @media (max-width: 640px){
+      .grid{grid-template-columns:1fr}
+      .hero .headline{font-size:34px}
+      nav .nav-links{display:none}
+    }
+  h1, h2, h3 { letter-spacing:0.5px; }
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .4s ease,transform .4s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.card:hover, .plan:hover, .kpi:hover{opacity:.95;}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;} .reveal{opacity:1!important;transform:none!important;}}
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav aria-label="Primary">
+        <a href="#top" class="logo"><span class="mark" aria-hidden="true"></span> FlowPilot</a>
+        <div class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#demo">Demo</a>
+          <a href="#about">About</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+          <a class="btn" href="#get-started">Get started</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="eyebrow muted">SaaS Analytics • 7-day trial</div>
+        <h1 class="headline">Understand your traffic. Ship smarter. Grow faster.</h1>
+        <p>FlowPilot gives you privacy-friendly analytics, funnels, and event tracking without the bloated dashboards. Built for founders and small teams who value speed.</p>
+        <div class="hero-cta">
+          <a class="btn" href="#get-started">Start free trial</a>
+          <a class="btn secondary" href="#pricing">See pricing</a>
+        </div>
+        <div class="statbar">
+          <div class="stat"><b>120ms</b><div class="muted">Avg. script load</div></div>
+          <div class="stat"><b>+18%</b><div class="muted">Conversion uplift</div></div>
+          <div class="stat"><b>GDPR</b><div class="muted">Cookie-free mode</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features">
+      <div class="container">
+        <h2>Key features</h2>
+        <p class="muted">Everything you need to track growth without slowing down your site.</p>
+        <div class="grid" style="margin-top:18px">
+          <article class="card">
+            <div class="feature-icon" aria-hidden="true">📈</div>
+            <h3>Funnels & Goals</h3>
+            <p class="muted">Build funnels in seconds and see exactly where users drop off.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon" aria-hidden="true">⚡</div>
+            <h3>Fast & Lightweight</h3>
+            <p class="muted">2KB tracking snippet. No cookies required. No blocking.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon" aria-hidden="true">🔒</div>
+            <h3>Privacy-first</h3>
+            <p class="muted">Cookieless mode with EU servers and anonymized IP.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo -->
+    <section id="demo" class="demo">
+      <div class="container">
+        <h2>Live demo</h2>
+        <p class="muted">A quick peek of the dashboard you get with FlowPilot.</p>
+        <div class="wrap" id="live-demo">
+          <div>
+            <div class="kpis" aria-label="Key metrics">
+              <div class="kpi"><div class="muted">Active Users</div><b>3,248</b><div class="muted">+12% WoW</div></div>
+              <div class="kpi"><div class="muted">Conversion</div><b>4.1%</b><div class="muted">+0.6% WoW</div></div>
+              <div class="kpi"><div class="muted">Avg. Time</div><b>2m 14s</b><div class="muted">-8% WoW</div></div>
+            </div>
+            <p style="margin-top:14px"><a class="btn" href="#get-started" aria-label="Start your free trial">Try this dashboard</a> <a class="btn secondary" href="#pricing">See plans</a></p>
+          </div>
+          <div class="demo-screen" role="region" aria-label="Demo preview">
+            <div class="demo-toolbar"><div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="muted">/demo</div></div>
+            <div class="demo-canvas">
+              <div class="mini-grid">
+                <div class="tile w6" aria-hidden="true"></div>
+                <div class="tile w6" aria-hidden="true"></div>
+                <div class="tile w4" aria-hidden="true"></div>
+                <div class="tile w4" aria-hidden="true"></div>
+                <div class="tile w4" aria-hidden="true"></div>
+                <div class="tile w12" aria-hidden="true"></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-head">
+                  <div class="chart-title">Visitors (last 14 days)</div>
+                  <div class="chart-legend">Demo data</div>
+                </div>
+                <canvas id="demoChart" aria-label="Visitors over time (demo)" role="img"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="pricing">
+      <div class="container">
+        <h2>Simple pricing</h2>
+        <p class="muted">Toggle to see monthly vs. yearly (2 months free).</p>
+        <div class="toggle" role="group" aria-label="Billing period">
+          <span class="muted">Monthly</span>
+          <div id="billingSwitch" class="switch" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle yearly billing"></div>
+          <span class="muted">Yearly</span>
+        </div>
+
+        <div class="plans">
+          <div class="plan" aria-label="Starter plan">
+            <h3>Starter</h3>
+            <div class="muted">For side projects</div>
+            <div class="price"><span class="amount" data-m="$12" data-y="$10">$12</span> <small>/ <span class="period">mo</span></small></div>
+            <ul class="features-list">
+              <li><span class="check">✓</span>10k events / mo</li>
+              <li><span class="check">✓</span>3 websites</li>
+              <li><span class="check">✓</span>Email support</li>
+            </ul>
+            <a class="btn" href="#get-started">Choose Starter</a>
+          </div>
+
+          <div class="plan popular" aria-label="Growth plan">
+            <h3>Growth</h3>
+            <div class="muted">Most popular</div>
+            <div class="price"><span class="amount" data-m="$29" data-y="$24">$29</span> <small>/ <span class="period">mo</span></small></div>
+            <ul class="features-list">
+              <li><span class="check">✓</span>100k events / mo</li>
+              <li><span class="check">✓</span>Unlimited websites</li>
+              <li><span class="check">✓</span>Priority support</li>
+            </ul>
+            <a class="btn" href="#get-started">Choose Growth</a>
+          </div>
+
+          <div class="plan" aria-label="Scale plan">
+            <h3>Scale</h3>
+            <div class="muted">For larger teams</div>
+            <div class="price"><span class="amount" data-m="$79" data-y="$66">$79</span> <small>/ <span class="period">mo</span></small></div>
+            <ul class="features-list">
+              <li><span class="check">✓</span>1M events / mo</li>
+              <li><span class="check">✓</span>SLA + SSO</li>
+              <li><span class="check">✓</span>Dedicated success</li>
+            </ul>
+            <a class="btn" href="#get-started">Choose Scale</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <div class="container">
+        <h2>Loved by product teams</h2>
+        <div class="slider" aria-roledescription="carousel">
+          <div class="slides" id="slides" aria-live="polite">
+            <figure class="tcard">
+              <blockquote>“We replaced three tools with FlowPilot. Faster insights, less maintenance.”</blockquote>
+              <figcaption class="muted">— Lina, PM at Fractal</figcaption>
+            </figure>
+            <figure class="tcard">
+              <blockquote>“Dropped our script load time to almost zero. Devs finally stopped complaining.”</blockquote>
+              <figcaption class="muted">— Omar, CTO at Spry</figcaption>
+            </figure>
+            <figure class="tcard">
+              <blockquote>“Funnels took minutes, not hours. The dashboard is stupid simple.”</blockquote>
+              <figcaption class="muted">— Jade, Founder at North</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="dots" role="tablist" aria-label="Testimonials" id="dots"></div>
+      </div>
+    </section>
+    <!-- About Maker -->
+    <section id="about" class="about">
+      <div class="container">
+        <h2>About SHP</h2>
+        <div class="wrap">
+          <div>
+            <div class="avatar"><img class="avatar-img" src="me.jpg" alt="Your photo" /></div>
+          </div>
+          <div class="bio">
+            <p><strong>SHP</strong> — Front‑end Developer & Web Designer. I build fast, responsive sites with clean UI, accessible interactions, and production‑ready code (HTML, CSS, JavaScript).</p>
+            <p class="muted">What I focus on: performance (Lighthouse ≥ 90), mobile‑first layouts, semantic markup, and smooth micro‑interactions.</p>
+            <p>
+              <span class="pill">Landing Pages</span>
+              <span class="pill">Figma → HTML</span>
+              <span class="pill">Responsive Fix</span>
+            </p>
+            <p><a class="btn" href="https://github.com/diu-shpranto" target="_blank" rel="noopener">Hire SHP</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq">
+      <div class="container">
+        <h2>FAQ</h2>
+        <div class="accordion" id="accordion">
+          <div class="qa">
+            <button aria-expanded="false">Do I need cookies to track users? <span class="muted">▾</span></button>
+            <div class="answer"><p>No. FlowPilot supports cookieless tracking that’s fully GDPR-friendly.</p></div>
+          </div>
+          <div class="qa">
+            <button aria-expanded="false">Can I migrate from Google Analytics? <span class="muted">▾</span></button>
+            <div class="answer"><p>Yes. Import historical data via CSV and keep your current events.</p></div>
+          </div>
+          <div class="qa">
+            <button aria-expanded="false">Is there a free trial? <span class="muted">▾</span></button>
+            <div class="answer"><p>Try everything free for 7 days. No credit card required.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="get-started" class="cta">
+      <div class="container">
+        <div class="wrap">
+          <div>
+            <h3>Start your 7-day trial</h3>
+            <p class="muted">Add a 2KB script, ship in minutes. Cancel anytime.</p>
+          </div>
+          <a class="btn" href="#">Create account</a>
+        </div>
+      </div>
+    </section>
+    <footer class="credit">
+    <div class="container muted" style="text-align:center; font-size:14px; padding:24px 0; border-top:1px solid var(--border);">
+      Built from scratch with HTML, CSS & JS — designed and developed by <a href="https://github.com/diu-shpranto" target="_blank" rel="noopener">SHP</a>.
+    </div>
+  </footer>
+</main>
+
+  
+
+  <script>
+    // Smooth scroll for in-page links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id=a.getAttribute('href');
+        if(id.length>1){
+          e.preventDefault();
+          document.querySelector(id).scrollIntoView({behavior:'smooth'});
+        }
+      })
+    })
+
+    // Dynamic year (guard for missing footer)
+    const yearEl = document.getElementById('year');
+    if (yearEl) {
+      yearEl.textContent = new Date().getFullYear();
+    }
+    // Test: ensure no crash if #year missing
+    console.assert(!document.getElementById('year') || document.getElementById('year').textContent.length > 0, 'Year element handled safely');
+
+    // Pricing toggle (Monthly <-> Yearly)
+    const switchEl = document.getElementById('billingSwitch');
+    const amounts = document.querySelectorAll('.amount');
+    const periodEls = document.querySelectorAll('.period');
+
+    function setBilling(yearly){
+      switchEl.classList.toggle('active', yearly);
+      switchEl.setAttribute('aria-checked', yearly ? 'true' : 'false');
+      amounts.forEach(el=>{
+        el.textContent = yearly ? el.dataset.y : el.dataset.m;
+      });
+      periodEls.forEach(el=> el.textContent = yearly ? 'mo (billed yearly)' : 'mo');
+    }
+    setBilling(false);
+
+    const toggle = ()=> setBilling(!switchEl.classList.contains('active'));
+    switchEl.addEventListener('click', toggle);
+    switchEl.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); toggle(); }});
+
+    // Testimonials slider
+    const slides = document.getElementById('slides');
+    const dots = document.getElementById('dots');
+    const total = slides.children.length;
+    let index = 0;
+
+    function renderDots(){
+      dots.innerHTML='';
+      for(let i=0;i<total;i++){
+        const d=document.createElement('button');
+        d.className = 'dot' + (i===index ? ' active' : '');
+        d.setAttribute('aria-label','Go to slide '+(i+1));
+        d.addEventListener('click',()=> go(i));
+        dots.appendChild(d);
+      }
+    }
+    function go(i){
+      index = (i+total)%total;
+      slides.style.transform = `translateX(-${index*100}%)`;
+      renderDots();
+    }
+    renderDots();
+    let timer = setInterval(()=> go(index+1), 5000);
+    slides.addEventListener('mouseenter',()=> clearInterval(timer));
+    slides.addEventListener('mouseleave',()=> timer = setInterval(()=> go(index+1), 5000));
+
+    // FAQ accordion
+    document.querySelectorAll('.qa').forEach((qa)=>{
+      const btn = qa.querySelector('button');
+      btn.addEventListener('click',()=>{
+        const open = qa.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open?'true':'false');
+      });
+    });
+    // Demo line chart (vanilla canvas)
+    (function(){
+      const canvas = document.getElementById('demoChart');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const css = getComputedStyle(document.documentElement);
+      const brand = (css.getPropertyValue('--brand')||'#6ee7b7').trim();
+      const accent = (css.getPropertyValue('--accent')||'#60a5fa').trim();
+      const muted = (css.getPropertyValue('--muted')||'#aeb4c1').trim();
+
+      const days = Array.from({length:14}, (_,i)=>`D${i+1}`);
+      const data = [18,22,20,26,24,30,28,35,31,38,36,44,41,48];
+
+      function resize(){
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        const w = canvas.clientWidth;
+        const h = 240;
+        canvas.width = Math.floor(w*ratio);
+        canvas.height = Math.floor(h*ratio);
+        ctx.setTransform(ratio,0,0,ratio,0,0);
+        draw(1);
+      }
+
+      function draw(progress=1){
+        const w = canvas.clientWidth;
+        const h = 240;
+        ctx.clearRect(0,0,w,h);
+        const padding = {t:18,r:12,b:26,l:32};
+        const gw = w - padding.l - padding.r;
+        const gh = h - padding.t - padding.b;
+
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#1f2636';
+        const steps = 4;
+        for(let i=0;i<=steps;i++){
+          const y = padding.t + (gh/steps)*i + .5;
+          ctx.beginPath();
+          ctx.moveTo(padding.l, y);
+          ctx.lineTo(w - padding.r, y);
+          ctx.stroke();
+        }
+
+        ctx.fillStyle = muted;
+        ctx.font = '12px Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif';
+        const stepX = gw/(days.length-1);
+        for(let i=0;i<days.length;i+=3){
+          const x = padding.l + stepX*i;
+          ctx.fillText(days[i], x-8, h-8);
+        }
+
+        const max = Math.max(...data)*1.15;
+        const min = Math.min(...data)*0.9;
+        const yVal = (v)=> padding.t + gh - ((v-min)/(max-min))*gh;
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = brand;
+        ctx.beginPath();
+        data.forEach((v,i)=>{
+          const x = padding.l + stepX*i;
+          const y = yVal(v);
+          if(i===0) ctx.moveTo(x,y);
+          else ctx.lineTo(x,y);
+        });
+        const clipW = (progress >= 0.999) ? w : (padding.l + gw*progress + 2);
+        ctx.save();
+        ctx.rect(0,0,clipW,h);
+        ctx.clip();
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.fillStyle = (css.getPropertyValue('--accent')||'#60a5fa').trim();
+        for(let i=0;i<data.length;i+=3){
+          const x = padding.l + stepX*i;
+          const y = yVal(data[i]);
+          ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fill();
+        }
+      }
+
+      let start=null;
+      function animate(ts){
+        if(!start) start=ts;
+        const t = Math.min(1,(ts-start)/900);
+        draw(t);
+        if(t<1) requestAnimationFrame(animate);
+      }
+
+      resize();
+      requestAnimationFrame(animate);
+      window.addEventListener('resize', resize);
+    })();
+
+  // Active nav link on scroll
+const sections = document.querySelectorAll('main section[id]');
+function setActiveNav(){
+  let cur = null;
+  sections.forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    if(rect.top <= 120 && rect.bottom >= 120) cur = sec.id;
+  });
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach(a=>{
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  });
 }
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);}
-a{color:inherit;text-decoration:none}
-img{max-width:100%;display:block}
-.container{max-width:var(--container);margin:0 auto;padding:0 20px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;background:var(--brand);color:#0a0f0d;font-weight:500;border:1px solid var(--brand);box-shadow:none;transition:.15s transform ease;}
-.btn:hover{transform:translateY(-1px);}
-.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
-header{position:sticky;top:0;z-index:50;background:var(--panel);border-bottom:1px solid var(--border);box-shadow:0 6px 18px rgba(0,0,0,.25)}
-nav{display:flex;justify-content:space-between;align-items:center;height:64px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:700}
-.logo .mark{width:28px;height:28px;border-radius:8px;background:conic-gradient(from 120deg, var(--brand), var(--accent));box-shadow:0 0 0 2px #15202b inset}
-.nav-links{display:flex;gap:18px}
-.nav-links a{color:var(--muted);transition:color .2s ease;}
-.nav-links a.active{color:var(--text);text-decoration:underline;text-underline-offset:4px;}
-.nav-links a:hover{color:var(--text);text-decoration:underline;text-underline-offset:4px}
-.nav-links .btn{color:#000 !important;background:var(--brand) !important;border-color:var(--brand) !important;}
-.hero{padding:72px 0 40px;border-bottom:1px solid var(--border)}
-.hero .headline{font-size:46px;line-height:1.05;letter-spacing:-0.02em;margin:10px 0 14px}
-.hero p{color:var(--muted);max-width:720px}
-.hero-cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
-.statbar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:38px}
-.stat{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
-.stat b{font-size:20px}
-.features{padding:56px 0}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
-.card h3{margin:4px 0 6px;font-size:18px}
-.muted{color:var(--muted)}
-.feature-icon{width:36px;height:36px;border-radius:10px;background:transparent;border:1px solid var(--border);display:grid;place-items:center;color:var(--muted);}
+window.addEventListener('scroll', setActiveNav);
+setActiveNav();
 
-
-/* Pricing */
-.pricing{padding:56px 0;border-top:1px solid var(--border)}
-.toggle{display:flex;align-items:center;gap:12px;justify-content:center;margin:6px 0 24px}
-.switch{position:relative;width:54px;height:30px;background:#1a2130;border-radius:20px;border:1px solid var(--border);cursor:pointer}
-.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--brand);transition:left .2s}
-.switch.active::after{left:27px}
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.plan{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
-.plan.popular{border-color:rgba(110,231,183,.6)}
-.price{font-size:34px;font-weight:700}
-.price small{font-size:14px;color:var(--muted)}
-.features-list{display:grid;gap:10px;margin:6px 0}
-.features-list li{display:flex;align-items:center;gap:10px}
-.check{width:18px;height:18px;border-radius:50%;background:rgba(110,231,183,.18);display:grid;place-items:center;border:1px solid #285a47}
-
-
-</section>
-<!-- Features -->
-<section id="features" class="features">
-<div class="container">
-<h2>Key features</h2>
-<p class="muted">Everything you need to track growth without slowing down your site.</p>
-<div class="grid" style="margin-top:18px">
-<article class="card">
-<div class="feature-icon" aria-hidden="true">📈</div>
-<h3>Funnels & Goals</h3>
-<p class="muted">Build funnels in seconds and see exactly where users drop off.</p>
-</article>
-<article class="card">
-<div class="feature-icon" aria-hidden="true">⚡</div>
-<h3>Fast & Lightweight</h3>
-<p class="muted">2KB tracking snippet. No cookies required. No blocking.</p>
-</article>
-<article class="card">
-<div class="feature-icon" aria-hidden="true">🔒</div>
-<h3>Privacy-first</h3>
-<p class="muted">Cookieless mode with EU servers and anonymized IP.</p>
-</article>
-</div>
-</div>
-</section>
-
-
-<!-- Demo -->
-<section id="demo" class="demo">
-<div class="container">
-<h2>Live demo</h2>
-<p class="muted">A quick peek of the dashboard you get with FlowPilot.</p>
-<div class="wrap" id="live-demo">
-<div>
-<div class="kpis" aria-label="Key metrics">
-<div class="kpi"><div class="muted">Active Users</div><b>3,248</b><div class="muted">+12% WoW</div></div>
-<div class="kpi"><div class="muted">Conversion</div><b>4.1%</b><div class="muted">+0.6% WoW</div></div>
-<div class="kpi"><div class="muted">Avg. Time</div><b>2m 14s</b><div class="muted">-8% WoW</div></div>
-</div>
-<p style="margin-top:14px"><a class="btn" href="#get-started" aria-label="Start your free trial">Try this dashboard</a> <a class="btn secondary" href="#pricing">See plans</a></p>
-</div>
-<div class="demo-screen" role="region" aria-label="Demo preview">
-<div class="demo-toolbar"><div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="muted">/demo</div></div>
-<div class="demo-canvas">
-<div class="mini-grid">
-<div class="tile w6" aria-hidden="true"></div>
-<div class="tile w6" aria-hidden="true"></div>
-<div class="tile w4" aria-hidden="true"></div>
-<div class="tile w4" aria-hidden="true"></div>
-<div class="tile w4" aria-hidden="true"></div>
-<div class="tile w12" aria-hidden="true"></div>
-</div>
-<div class="chart-card">
-<div class="chart-head">
-<div class="chart-title">Visitors (last 14 days)</div>
-<div class="chart-legend">Demo data</div>
-</div>
-<canvas id="demoChart" aria-label="Visitors over time (demo)" role="img"></canvas>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Pricing -->
-<section id="pricing" class="pricing">
-<div class="container">
-<h2>Simple pricing</h2>
-<p class="muted">Toggle to see monthly vs. yearly (2 months free).</p>
-<div class="toggle" role="group" aria-label="Billing period">
-<span class="muted">Monthly</span>
-<div id="billingSwitch" class="switch" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle yearly billing"></div>
-<span class="muted">Yearly</span>
-</div>
-
-
-<div class="plans">
-<div class="plan" aria-label="Starter plan">
-<h3>Starter</h3>
-<div class="muted">For side projects</div>
-<div class="price"><span class="amount" data-m="$12" data-y="$10">$12</span> <small>/ <span class="period">mo</span></small></div>
-<ul class="features-list">
-<li><span class="check">✓</span>10k events / mo</li>
-<li><span class="check">✓</span>3 websites</li>
-<li><span class="check">✓</span>Email support</li>
-</ul>
-<a class="btn" href="#get-started">Choose Starter</a>
-</div>
-
-
-<div class="plan popular" aria-label="Growth plan">
-<h3>Growth</h3>
-<div class="muted">Most popular</div>
-<div class="price"><span class="amount" data-m="$29" data-y="$24">$29</span> <small>/ <span class="period">mo</span></small></div>
-<ul class="features-list">
-<li><span class="check">✓</span>100k events / mo</li>
-<li><span class="check">✓</span>Unlimited websites</li>
-<li><span class="check">✓</span>Priority support</li>
-</ul>
-<a class="btn" href="#get-started">Choose Growth</a>
-</div>
-
-
-<div class="plan" aria-label="Scale plan">
-<h3>Scale</h3>
-<div class="muted">For larger teams</div>
-<div class="price"><span class="amount" data-m="$79" data-y="$66">$79</span> <small>/ <span class="period">mo</span></small></div>
-<ul class="features-list">
-<li><span class="check">✓</span>1M events / mo</li>
-<li><span class="check">✓</span>SLA + SSO</li>
-<li><span class="check">✓</span>Dedicated success</li>
-</ul>
-<a class="btn" href="#get-started">Choose Scale</a>
-</div>
-</div>
-</div>
-</section>
+// Fade-in on scroll
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible');});
+},{threshold:0.15});
+document.querySelectorAll('section, .card, .plan, .kpi').forEach(el=>{el.classList.add('reveal');observer.observe(el);});
+</script>
+</body>
+</html>
