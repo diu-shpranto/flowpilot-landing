@@ -52,3 +52,138 @@ nav{display:flex;justify-content:space-between;align-items:center;height:64px}
 .card h3{margin:4px 0 6px;font-size:18px}
 .muted{color:var(--muted)}
 .feature-icon{width:36px;height:36px;border-radius:10px;background:transparent;border:1px solid var(--border);display:grid;place-items:center;color:var(--muted);}
+
+
+/* Pricing */
+.pricing{padding:56px 0;border-top:1px solid var(--border)}
+.toggle{display:flex;align-items:center;gap:12px;justify-content:center;margin:6px 0 24px}
+.switch{position:relative;width:54px;height:30px;background:#1a2130;border-radius:20px;border:1px solid var(--border);cursor:pointer}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--brand);transition:left .2s}
+.switch.active::after{left:27px}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.plan{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
+.plan.popular{border-color:rgba(110,231,183,.6)}
+.price{font-size:34px;font-weight:700}
+.price small{font-size:14px;color:var(--muted)}
+.features-list{display:grid;gap:10px;margin:6px 0}
+.features-list li{display:flex;align-items:center;gap:10px}
+.check{width:18px;height:18px;border-radius:50%;background:rgba(110,231,183,.18);display:grid;place-items:center;border:1px solid #285a47}
+
+
+</section>
+<!-- Features -->
+<section id="features" class="features">
+<div class="container">
+<h2>Key features</h2>
+<p class="muted">Everything you need to track growth without slowing down your site.</p>
+<div class="grid" style="margin-top:18px">
+<article class="card">
+<div class="feature-icon" aria-hidden="true">📈</div>
+<h3>Funnels & Goals</h3>
+<p class="muted">Build funnels in seconds and see exactly where users drop off.</p>
+</article>
+<article class="card">
+<div class="feature-icon" aria-hidden="true">⚡</div>
+<h3>Fast & Lightweight</h3>
+<p class="muted">2KB tracking snippet. No cookies required. No blocking.</p>
+</article>
+<article class="card">
+<div class="feature-icon" aria-hidden="true">🔒</div>
+<h3>Privacy-first</h3>
+<p class="muted">Cookieless mode with EU servers and anonymized IP.</p>
+</article>
+</div>
+</div>
+</section>
+
+
+<!-- Demo -->
+<section id="demo" class="demo">
+<div class="container">
+<h2>Live demo</h2>
+<p class="muted">A quick peek of the dashboard you get with FlowPilot.</p>
+<div class="wrap" id="live-demo">
+<div>
+<div class="kpis" aria-label="Key metrics">
+<div class="kpi"><div class="muted">Active Users</div><b>3,248</b><div class="muted">+12% WoW</div></div>
+<div class="kpi"><div class="muted">Conversion</div><b>4.1%</b><div class="muted">+0.6% WoW</div></div>
+<div class="kpi"><div class="muted">Avg. Time</div><b>2m 14s</b><div class="muted">-8% WoW</div></div>
+</div>
+<p style="margin-top:14px"><a class="btn" href="#get-started" aria-label="Start your free trial">Try this dashboard</a> <a class="btn secondary" href="#pricing">See plans</a></p>
+</div>
+<div class="demo-screen" role="region" aria-label="Demo preview">
+<div class="demo-toolbar"><div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="muted">/demo</div></div>
+<div class="demo-canvas">
+<div class="mini-grid">
+<div class="tile w6" aria-hidden="true"></div>
+<div class="tile w6" aria-hidden="true"></div>
+<div class="tile w4" aria-hidden="true"></div>
+<div class="tile w4" aria-hidden="true"></div>
+<div class="tile w4" aria-hidden="true"></div>
+<div class="tile w12" aria-hidden="true"></div>
+</div>
+<div class="chart-card">
+<div class="chart-head">
+<div class="chart-title">Visitors (last 14 days)</div>
+<div class="chart-legend">Demo data</div>
+</div>
+<canvas id="demoChart" aria-label="Visitors over time (demo)" role="img"></canvas>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing -->
+<section id="pricing" class="pricing">
+<div class="container">
+<h2>Simple pricing</h2>
+<p class="muted">Toggle to see monthly vs. yearly (2 months free).</p>
+<div class="toggle" role="group" aria-label="Billing period">
+<span class="muted">Monthly</span>
+<div id="billingSwitch" class="switch" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle yearly billing"></div>
+<span class="muted">Yearly</span>
+</div>
+
+
+<div class="plans">
+<div class="plan" aria-label="Starter plan">
+<h3>Starter</h3>
+<div class="muted">For side projects</div>
+<div class="price"><span class="amount" data-m="$12" data-y="$10">$12</span> <small>/ <span class="period">mo</span></small></div>
+<ul class="features-list">
+<li><span class="check">✓</span>10k events / mo</li>
+<li><span class="check">✓</span>3 websites</li>
+<li><span class="check">✓</span>Email support</li>
+</ul>
+<a class="btn" href="#get-started">Choose Starter</a>
+</div>
+
+
+<div class="plan popular" aria-label="Growth plan">
+<h3>Growth</h3>
+<div class="muted">Most popular</div>
+<div class="price"><span class="amount" data-m="$29" data-y="$24">$29</span> <small>/ <span class="period">mo</span></small></div>
+<ul class="features-list">
+<li><span class="check">✓</span>100k events / mo</li>
+<li><span class="check">✓</span>Unlimited websites</li>
+<li><span class="check">✓</span>Priority support</li>
+</ul>
+<a class="btn" href="#get-started">Choose Growth</a>
+</div>
+
+
+<div class="plan" aria-label="Scale plan">
+<h3>Scale</h3>
+<div class="muted">For larger teams</div>
+<div class="price"><span class="amount" data-m="$79" data-y="$66">$79</span> <small>/ <span class="period">mo</span></small></div>
+<ul class="features-list">
+<li><span class="check">✓</span>1M events / mo</li>
+<li><span class="check">✓</span>SLA + SSO</li>
+<li><span class="check">✓</span>Dedicated success</li>
+</ul>
+<a class="btn" href="#get-started">Choose Scale</a>
+</div>
+</div>
+</div>
+</section>
